@@ -17,12 +17,10 @@ else:
 
 #  Socket to talk to server
 print("Connecting to hello world server…")
-socket = context.socket(zmq.REQ)
+socket = context.socket(zmq.PUSH)
 socket.connect("tcp://%s:5555" % server_ip)
 
 while True:
     light_state = input("Enter light state (ON/OFF): ")
-    print("Sending request %s …" % light_state)
-    socket.send(light_state.encode())
-    message = socket.recv()
-    print("Received reply [ %s ]" %  (message))
+    print("Sending request: %s" % light_state)
+    socket.send_string(light_state)
